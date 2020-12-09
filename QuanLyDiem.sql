@@ -1,4 +1,5 @@
-USE QuanLyDiem
+CREATE DATABASE QuanLyDiem2
+USE QuanLyDiem2
 -- Cho cơ sở dữ liệu QuanLyDiem gồm các bảng dữ liệu sau:
 --SinhVien gồm các thuộc tính: masv varchar(5), holot nvarchar(30), ten nvarchar(10),
 -- gioitinh bit, ngaysinh datetime.
@@ -42,7 +43,6 @@ CREATE TABLE DiemThi
     DiemLan2 FLOAT CHECK (DiemLan2 >= 0 and DiemLan2 <= 10)
     CONSTRAINT PK_MaSV_MaMH_DiemThi PRIMARY KEY (MaSV, MaMH)
 )
-INSERT INTO DiemThi VALUES ('SV001', 'MH001', 8, 8)
 
 ----------------------------------------------------------------------------------------------
 -- 2. Tạo 3 thủ tục tương ứng để thêm, sửa, xóa dữ liệu cho bảng dữ liệu SinhVien, mỗi thủ tục
@@ -103,7 +103,7 @@ RETURNS VARCHAR(5)
 AS 
 BEGIN 
     DECLARE @maSV VARCHAR(5)
-    SELECT @maSV = RIGHT(ISNULL(MAX(MaSV), 1), 3) + 1 FROM SinhVien
+    SELECT @maSV = RIGHT(ISNULL(MAX(MaSV), 0), 3) + 1 FROM SinhVien
     SET @maSV = 'SV' + REPLICATE('0', 3 - LEN(@maSV)) + @maSV
     return @maSV
 END
@@ -111,20 +111,20 @@ END
 GO
 
 -- Thêm dữ liệu bảng Sinh Viên
-ISNERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Hryncewicz', 'Arlie', 0, '2001-09-10')
-ISNERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Bautiste', 'Brandyn', 0, '2001-03-12')
-ISNERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Tills', 'Harmony', 1, '2001-07-22')
-ISNERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Nussii', 'Antin', 1, '2001-08-12')
-ISNERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Ellicombe', 'Westleigh', 0, '2001-01-14')
-ISNERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Stentiford', 'Ethe', 0, '2001-01-02')
-ISNERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Timbs', 'Jerrine', 1, '2001-08-23')
-ISNERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Vogeler', 'Linn', 1, '2001-04-14')
-ISNERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Humm', 'Alberik', 1, '2001-06-12')
-ISNERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Dilston', 'Davidson', 0, '2001-01-17')
-ISNERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Savine', 'Melva', 1, '2001-01-10')
-ISNERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Trever', 'Jakie', 1, '2001-03-19')
-ISNERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Hawtrey', 'Homer', 1, '2001-08-11')
-ISNERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Dearan', 'Austen', 1, '2001-01-12')
+INSERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Hryncewicz', 'Arlie', 0, '2001-09-10')
+INSERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Bautiste', 'Brandyn', 0, '2001-03-12')
+INSERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Tills', 'Harmony', 1, '2001-07-22')
+INSERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Nussii', 'Antin', 1, '2001-08-12')
+INSERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Ellicombe', 'Westleigh', 0, '2001-01-14')
+INSERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Stentiford', 'Ethe', 0, '2001-01-02')
+INSERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Timbs', 'Jerrine', 1, '2001-08-23')
+INSERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Vogeler', 'Linn', 1, '2001-04-14')
+INSERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Humm', 'Alberik', 1, '2001-06-12')
+INSERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Dilston', 'Davidson', 0, '2001-01-17')
+INSERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Savine', 'Melva', 1, '2001-01-10')
+INSERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Trever', 'Jakie', 1, '2001-03-19')
+INSERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Hawtrey', 'Homer', 1, '2001-08-11')
+INSERT INTO SinhVien VALUES (dbo.fc_auto_masv(), 'Dearan', 'Austen', 1, '2001-01-12')
 
 -- Thêm dữ liệu bảng Monhoc
 INSERT INTO MonHoc VALUES ('MH001', N'Cấu trúc dữ liệu', 24)
@@ -221,27 +221,6 @@ INSERT INTO DiemThi VALUES ('SV010', 'MH007', 7, 4)
 INSERT INTO DiemThi VALUES ('SV010', 'MH009', 9, 2)
 INSERT INTO DiemThi VALUES ('SV010', 'MH010', 10, 1)
 
-
-
-INSERT INTO DiemThi VALUES ('SV0011', 'MH001', 1, 10)
-INSERT INTO DiemThi VALUES ('SV0011', 'MH002', 2, 9)
-INSERT INTO DiemThi VALUES ('SV0011', 'MH003',4, 7)
-INSERT INTO DiemThi VALUES ('SV0011', 'MH004', 4, 7)
-INSERT INTO DiemThi VALUES ('SV0011', 'MH006', 6, 5)
-INSERT INTO DiemThi VALUES ('SV0011', 'MH007', 7, 4)
-INSERT INTO DiemThi VALUES ('SV0011', 'MH009', 9, 2)
-INSERT INTO DiemThi VALUES ('SV0011', 'MH010', 10, 1)
-
-
-
-INSERT INTO DiemThi VALUES ('SV001', 'MH001', 1, 10)
-INSERT INTO DiemThi VALUES ('SV001', 'MH002', 2, 9)
-INSERT INTO DiemThi VALUES ('SV001', 'MH003', 9, 2)
-INSERT INTO DiemThi VALUES ('SV001', 'MH005', 5, 6)
-INSERT INTO DiemThi VALUES ('SV001', 'MH006', 6, 5)
-INSERT INTO DiemThi VALUES ('SV001', 'MH008', 8, 3)
-INSERT INTO DiemThi VALUES ('SV001', 'MH009', 9, 2)
-INSERT INTO DiemThi VALUES ('SV001', 'MH010', 10, 1)
 
 --------------------------------------------------------------------------------------------------
 -- 4. Tạo trigger kiểm tra tính hợp lệ về việc nhập điểm lần 2 cho các sinh viên. Tính hợp lệ được
